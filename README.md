@@ -6,6 +6,11 @@ Mirror what you’re playing in Spotify to Apple Music on macOS. Lightweight men
 - Architecture: Universal (Apple Silicon + Intel) if you build as such in Xcode
 - No Spotify account keys: Uses AppleScript to read Spotify’s current track. No Spotify Web API, no client secrets.
 
+## Motivation
+
+I love the high-quality audio that Apple Music offers, especially with support for lossless and Dolby Atmos tracks. However, I find that Spotify's recommendation algorithm is much better at helping me discover the music I actually like (very debatable ik). I wanted a way to enjoy the best of both worlds: listen to my Spotify recommendations & playlists, but hear them in Apple Music's superior audio quality. So I built this.
+
+
 ## Features
 - Menu bar toggle to enable/disable mirroring
 - Now playing status in the menu
@@ -46,6 +51,7 @@ Shortcuts helper:
 - Launch the app: a link icon appears in the menu bar.
 - Use the menu to toggle Enable mirroring.
 - Start music in Spotify; the app mutes Spotify and opens the same song in Music.
+- When the track changes in Spotify, it automatically plays the that new song in Apple Music in the background.
 
 ## Build from Source
 Prerequisites: Xcode 15+, macOS 15+
