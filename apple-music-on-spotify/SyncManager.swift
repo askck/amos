@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AppKit
 import OSLog
 
 @MainActor
@@ -38,6 +39,22 @@ final class SyncManager: ObservableObject {
         if timer != nil { return }
         status = "Running"
         logger.info("Sync started")
+        // Require Shortcuts helper before enabling mirroring
+        if !AppleScriptBridge.hasShortcut(named: AppleScriptBridge.shortcutsHelperName) {
+            self.enabled = false
+            self.status = "Shortcuts helper not installed"
+            logger.warning("Shortcuts helper missing; disabling mirroring")
+            let alert = NSAlert()
+            alert.messageText = "Install Shortcuts Helper"
+            alert.informativeText = "This app requires the Shortcuts helper (\(AppleScriptBridge.shortcutsHelperName)) to open Apple Music URLs. Would you like to install it now?"
+            alert.addButton(withTitle: "Install")
+            alert.addButton(withTitle: "Not now")
+            let resp = alert.runModal()
+            if resp == .alertFirstButtonReturn, let url = URL(string: AppleScriptBridge.shortcutsInstallURL) {
+                NSWorkspace.shared.open(url)
+            }
+            return
+        }
         // Nudge apps to launch and show Automation consent
         AppleScriptBridge.launchSpotifyIfNeeded()
         AppleScriptBridge.requestAutomationConsentIfPossible()

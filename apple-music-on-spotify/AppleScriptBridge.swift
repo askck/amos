@@ -21,6 +21,8 @@ struct SpotifyNowPlaying {
 enum AppleScriptBridge {
     private static let logger = Logger(subsystem: "askck.apple-music-on-spotify", category: "AppleScript")
     private static let worker = DispatchQueue(label: "amsp.applescript.worker", qos: .userInitiated)
+    static let shortcutsHelperName = "Play Music From URL (new)"
+    static let shortcutsInstallURL = "https://www.icloud.com/shortcuts/f96a19938bf9467f9ed9403547242852"
     static func run(_ source: String) -> String? {
         let script = NSAppleScript(source: source)
         var errorInfo: NSDictionary?
@@ -88,6 +90,21 @@ enum AppleScriptBridge {
         // Send harmless events to trigger the Automation prompt
         _ = run("tell application \"Music\" to get name")
         if isSpotifyRunning() { _ = run("tell application \"Spotify\" to get name") }
+    }
+
+    static func hasShortcut(named name: String) -> Bool {
+        let script = """
+        tell application "Shortcuts Events"
+            set hasIt to false
+            try
+                set _ to shortcut named "\(name)"
+                set hasIt to true
+            end try
+            return hasIt as string
+        end tell
+        """
+        let out = run(script)?.lowercased()
+        return out == "true"
     }
 
     static func setSpotifyVolume(_ vol: Int) {
