@@ -10,7 +10,7 @@ Mirror what you’re playing in Spotify to Apple Music on macOS. Lightweight men
 - Menu bar toggle to enable/disable mirroring
 - Now playing status in the menu
 - Opens the matching Apple Music song using Apple’s Search API
-- Automation-friendly: requests permission to control Music and optionally Shortcuts
+- No Spotify or Apple Music Authentication needed
 
 How matching works:
 - Reads track name/artist from Spotify via AppleScript
@@ -31,7 +31,7 @@ Because this app is not notarized (no paid Developer ID), macOS Gatekeeper will 
    ```
 3. On first use, macOS will ask you to allow the app to control other apps via Automation. Allow control for:
    - Music
-   - Shortcuts (if you use the optional helper shortcut)
+   - Shortcuts
    - Spotify (to read now playing via AppleScript)
 4. If you accidentally denied prompts, reset Automation permissions and try again:
    ```bash
